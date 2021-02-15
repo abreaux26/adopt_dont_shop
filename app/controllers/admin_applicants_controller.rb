@@ -15,6 +15,6 @@ class AdminApplicantsController < ApplicationController
   private
 
   def pet_applicant_params
-    params.permit(:pet_id, :applicant_id, :is_pet_approved)
+    params.permit(:pet_id, :applicant_id, :adoption_status)
   end
 end

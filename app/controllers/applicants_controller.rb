@@ -40,8 +40,4 @@ class ApplicantsController < ApplicationController
   def applicant_params
     params.permit(:name, :address, :city, :state, :zip, :good_home_description, :status)
   end
-
-  def pets_params
-    params.permit(:image, :name, :description, :approximate_age, :sex, :adoptable)
-  end
 end

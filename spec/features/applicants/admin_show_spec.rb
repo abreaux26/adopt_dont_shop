@@ -17,19 +17,50 @@ RSpec.describe 'As a visitor' do
       end
     end
 
-    it 'I click "Update" and no longer see a button' do
+    it 'I click "Approve" and no longer see a button' do
       visit "/admin/applicants/#{@applicant1.id}"
-      
+
       within("#admin-applicant-#{@applicant1.id}") do
         click_button('Approve')
       end
       expect(page).not_to have_button('Approve')
       expect(current_path).to eq("/admin/applicants/#{@applicant1.id}")
     end
+
+    it 'I see an indicator next to the pet that they have been approved' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Approve')
+        expect(page).to have_content('Approved')
+      end
+    end
+
+    it 'I see a button to reject the application for that specific pet' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        expect(page).to have_button('Reject')
+      end
+    end
+
+    it 'I click "Reject" and no longer see a button' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Reject')
+      end
+      expect(page).not_to have_button('Reject')
+      expect(current_path).to eq("/admin/applicants/#{@applicant1.id}")
+    end
+
+    it 'I see an indicator next to the pet that they have been rejected' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Reject')
+        expect(page).to have_content('Rejected')
+      end
+    end
   end
 end
-
-# When I click that button
-# Then I'm taken back to the admin application show page
-# And next to the pet that I approved, I do not see a button to approve this pet
-# And instead I see an indicator next to the pet that they have been approved
