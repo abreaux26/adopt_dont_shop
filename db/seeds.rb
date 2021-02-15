@@ -19,3 +19,4 @@
 @applicant4 = Applicant.create!(name: 'Levi', address: '101 Street', city: 'Commerce City', state: 'CO', zip: 80022)
 
 PetApplicant.create!(pet: @pet1, applicant: @applicant1)
+PetApplicant.create!(pet: @pet1, applicant: @applicant2)
