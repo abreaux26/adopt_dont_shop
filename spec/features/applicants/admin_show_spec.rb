@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe 'As a visitor' do
   before :each do
     @applicant1 = Applicant.create!(name: 'Angel', address: '123 Street', city: 'Conway', state: 'AR', zip: 72034)
+    @applicant2 = Applicant.create!(name: 'Chris', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034)
     @shelter1 = Shelter.create!(name: 'Shady Shelter', address: '123 Shady Ave', city: 'Denver', state: 'CO', zip: 80011)
     @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 2, sex: 'male')
-    PetApplicant.create!(pet: @pet1, applicant: @applicant1)
+    @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1)
+    @pet_applicant2 = PetApplicant.create!(pet: @pet1, applicant: @applicant2)
   end
 
   describe 'When I visit an admin application show page' do
@@ -60,6 +62,38 @@ RSpec.describe 'As a visitor' do
       within("#admin-applicant-#{@applicant1.id}") do
         click_button('Reject')
         expect(page).to have_content('Rejected')
+      end
+    end
+  end
+
+  describe 'I visit the admin application show page for one of the applications' do
+    it 'I approve the pet for that application and I see buttons to approve or reject on the other application' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Approve')
+      end
+
+      visit "/admin/applicants/#{@applicant2.id}"
+
+      within("#admin-applicant-#{@applicant2.id}") do
+        expect(page).to have_button('Approve')
+        expect(page).to have_button('Reject')
+      end
+    end
+
+    it 'I reject the pet for that application' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Reject')
+      end
+
+      visit "/admin/applicants/#{@applicant2.id}"
+
+      within("#admin-applicant-#{@applicant2.id}") do
+        expect(page).to have_button('Approve')
+        expect(page).to have_button('Reject')
       end
     end
   end
