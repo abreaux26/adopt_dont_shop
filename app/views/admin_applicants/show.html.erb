@@ -3,7 +3,8 @@
   <p><strong>Pets:</strong></p>
   <p><% @applicant.pets.each do |pet| %></p>
     <p>Pet: <%= pet.name %> <strong><%= PetApplicant.find_by(pet.id, @applicant.id).adoption_status %></strong>
-    <% if PetApplicant.find_by(pet.id, @applicant.id).adoption_status.nil? %>
+    <% if PetApplicant.find_by(pet.id, @applicant.id).adoption_status != 'Approved' &&
+          PetApplicant.find_by(pet.id, @applicant.id).adoption_status !='Rejected' %>
       <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Approved" %>
       <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Rejected" %></p>
     <% end %>
