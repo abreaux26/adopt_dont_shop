@@ -20,3 +20,5 @@
 
 PetApplicant.create!(pet: @pet1, applicant: @applicant1)
 PetApplicant.create!(pet: @pet1, applicant: @applicant2)
+PetApplicant.create!(pet: @pet2, applicant: @applicant1)
+PetApplicant.create!(pet: @pet2, applicant: @applicant2)
