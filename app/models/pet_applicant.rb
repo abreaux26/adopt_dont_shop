@@ -3,7 +3,7 @@ class PetApplicant < ApplicationRecord
   belongs_to :pet
   belongs_to :applicant
 
-  enum adoption_status: ['Rejected', 'Approved']
+  enum adoption_status: [:pending, :rejected, :approved]
 
   def self.find_by(pet_id, applicant_id)
     where(pet: pet_id).where(applicant: applicant_id).take
@@ -11,7 +11,7 @@ class PetApplicant < ApplicationRecord
 
   def self.all_approved?(applicant_id)
     where(applicant: applicant_id).all? do |pet_applicant|
-      pet_applicant.adoption_status == 'Approved'
+      pet_applicant.approved?
     end
   end
 end

@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_001325) do
   create_table "pet_applicants", force: :cascade do |t|
     t.bigint "pet_id"
     t.bigint "applicant_id"
-    t.integer "adoption_status"
+    t.integer "adoption_status", default: 0
     t.index ["applicant_id"], name: "index_pet_applicants_on_applicant_id"
     t.index ["pet_id"], name: "index_pet_applicants_on_pet_id"
   end

@@ -11,11 +11,11 @@ RSpec.describe PetApplicant do
     @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 4, sex: 'male')
     @pet2 = @shelter1.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 2, sex: 'male')
 
-    @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1, adoption_status: 1)
-    @pet_applicant2 = PetApplicant.create!(pet: @pet2, applicant: @applicant2, adoption_status: 0)
-    @pet_applicant3 = PetApplicant.create!(pet: @pet2, applicant: @applicant1, adoption_status: 0)
-    @pet_applicant4 = PetApplicant.create!(pet: @pet1, applicant: @applicant3, adoption_status: 1)
-    @pet_applicant5 = PetApplicant.create!(pet: @pet2, applicant: @applicant3, adoption_status: 1)
+    @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1, adoption_status: 2)
+    @pet_applicant2 = PetApplicant.create!(pet: @pet2, applicant: @applicant2, adoption_status: 1)
+    @pet_applicant3 = PetApplicant.create!(pet: @pet2, applicant: @applicant1, adoption_status: 1)
+    @pet_applicant4 = PetApplicant.create!(pet: @pet1, applicant: @applicant3, adoption_status: 2)
+    @pet_applicant5 = PetApplicant.create!(pet: @pet2, applicant: @applicant3, adoption_status: 2)
   end
 
   describe 'relationships' do
@@ -31,13 +31,13 @@ RSpec.describe PetApplicant do
 
     it 'returns "Approved" if the pet on the application is approved' do
       pet_applicant = PetApplicant.find_by(@pet1.id, @applicant1.id)
-      expect(pet_applicant.adoption_status).to eq('Approved')
+      expect(pet_applicant.adoption_status).to eq('approved')
     end
 
     it 'returns "Rejected" if the pet on the application is rejected' do
 
       pet_applicant = PetApplicant.find_by(@pet2.id, @applicant2.id)
-      expect(pet_applicant.adoption_status).to eq('Rejected')
+      expect(pet_applicant.adoption_status).to eq('rejected')
     end
 
     it 'returns false if one pet applicant adoption status is rejected' do
