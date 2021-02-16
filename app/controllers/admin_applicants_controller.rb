@@ -6,20 +6,17 @@ class AdminApplicantsController < ApplicationController
 
   def update
     pet_id = params[:pet_id]
-    applicant_id = params[:applicant_id]
-    pet_applicant = PetApplicant.find_by(pet_id, applicant_id)
+    @applicant = Applicant.find(params[:applicant_id])
+    pet_applicant = PetApplicant.find_by(pet_id, @applicant.id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
-    if PetApplicant.all_approved?(applicant_id)
-      applicant = Applicant.find(applicant_id)
-      applicant.update(status: 'Accepted')
-      applicant.save
+    if PetApplicant.all_approved?(@applicant.id)
+      @applicant.update(status: 'Accepted')
     else
-      applicant = Applicant.find(applicant_id)
-      applicant.update(status: 'Rejected')
-      applicant.save
+      @applicant.update(status: 'Rejected')
     end
-    redirect_to "/admin/applicants/#{applicant_id}"
+    @applicant.save
+    redirect_to "/admin/applicants/#{@applicant.id}"
   end
 
   private
