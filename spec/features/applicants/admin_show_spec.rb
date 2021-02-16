@@ -4,8 +4,11 @@ RSpec.describe 'As a visitor' do
   before :each do
     @applicant1 = Applicant.create!(name: 'Angel', address: '123 Street', city: 'Conway', state: 'AR', zip: 72034)
     @applicant2 = Applicant.create!(name: 'Chris', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034)
+
     @shelter1 = Shelter.create!(name: 'Shady Shelter', address: '123 Shady Ave', city: 'Denver', state: 'CO', zip: 80011)
+
     @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 2, sex: 'male')
+
     @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1)
     @pet_applicant2 = PetApplicant.create!(pet: @pet1, applicant: @applicant2)
   end
@@ -94,6 +97,28 @@ RSpec.describe 'As a visitor' do
       within("#admin-applicant-#{@applicant2.id}") do
         expect(page).to have_button('Approve')
         expect(page).to have_button('Reject')
+      end
+    end
+  end
+
+  describe 'When I approve all pets for an application' do
+    it 'I see the applications status has changed to "Accepted" on the application show page' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Approve')
+        expect(page).to have_content('Accepted')
+      end
+    end
+  end
+
+  describe 'When I reject one pet for an application' do
+    it 'I see the applications status has changed to "Accepted" on the application show page' do
+      visit "/admin/applicants/#{@applicant2.id}"
+
+      within("#admin-applicant-#{@applicant2.id}") do
+        click_button('Reject')
+        expect(page).to have_content('Rejected')
       end
     end
   end
