@@ -9,6 +9,15 @@ class AdminApplicantsController < ApplicationController
     pet_applicant = PetApplicant.find_by(pet_id, applicant_id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
+    if PetApplicant.all_approved?(applicant_id)
+      applicant = Applicant.find(applicant_id)
+      applicant.update(status: 'Accepted')
+      applicant.save
+    else
+      applicant = Applicant.find(applicant_id)
+      applicant.update(status: 'Rejected')
+      applicant.save
+    end
     redirect_to "/admin/applicants/#{applicant_id}"
   end
 

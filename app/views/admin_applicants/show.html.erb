@@ -1,12 +1,16 @@
 <section id="admin-applicant-<%= @applicant.id %>">
   <h1><%= @applicant.name %></h1>
+  <p><strong>Address:</strong> <%= @applicant.full_address %></p>
+  <p><strong>Good Home Description</strong>: <%= @applicant.good_home_description %></p>
   <p><strong>Pets:</strong></p>
   <p><% @applicant.pets.each do |pet| %></p>
-    <p>Pet: <%= pet.name %> <strong><%= PetApplicant.find_by(pet.id, @applicant.id).adoption_status %></strong>
+    <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+      <strong><%= PetApplicant.find_by(pet.id, @applicant.id).adoption_status %></strong>
     <% if PetApplicant.find_by(pet.id, @applicant.id).adoption_status != 'Approved' &&
           PetApplicant.find_by(pet.id, @applicant.id).adoption_status !='Rejected' %>
       <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Approved" %>
       <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Rejected" %></p>
     <% end %>
   <% end %>
+  <p><strong>Status</strong>: <%= @applicant.status %></p>
 </section>
