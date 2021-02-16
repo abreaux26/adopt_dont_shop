@@ -122,4 +122,30 @@ RSpec.describe 'As a visitor' do
       end
     end
   end
+
+  describe 'When application is accepted and I visit the show pages for those pets' do
+    it 'I see that those pets are no longer "adoptable"' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Approve')
+      end
+
+      visit "/pets/#{@pet1.id}"
+      expect(page).to have_content(false)
+    end
+  end
+
+  describe 'When application is rejected and I visit the show pages for those pets' do
+    it 'I see that those pets are still "adoptable"' do
+      visit "/admin/applicants/#{@applicant1.id}"
+
+      within("#admin-applicant-#{@applicant1.id}") do
+        click_button('Reject')
+      end
+
+      visit "/pets/#{@pet1.id}"
+      expect(page).to have_content(true)
+    end
+  end
 end
