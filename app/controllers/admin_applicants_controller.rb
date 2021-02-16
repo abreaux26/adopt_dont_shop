@@ -1,6 +1,7 @@
 class AdminApplicantsController < ApplicationController
   def show
     @applicant = Applicant.find(params[:applicant_id])
+    @pet_applicants = @applicant.pet_applicants.includes(:pet)
   end
 
   def update

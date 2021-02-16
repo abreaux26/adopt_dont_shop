@@ -1,16 +1,15 @@
 <section id="admin-applicant-<%= @applicant.id %>">
   <h1><%= @applicant.name %></h1>
+  <p><strong>Status</strong>: <%= @applicant.status %></p>
   <p><strong>Address:</strong> <%= @applicant.full_address %></p>
   <p><strong>Good Home Description</strong>: <%= @applicant.good_home_description %></p>
   <p><strong>Pets:</strong></p>
-  <p><% @applicant.pets.each do |pet| %></p>
-    <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
-      <strong><%= PetApplicant.find_by(pet.id, @applicant.id).adoption_status %></strong>
-    <% if PetApplicant.find_by(pet.id, @applicant.id).adoption_status != 'Approved' &&
-          PetApplicant.find_by(pet.id, @applicant.id).adoption_status !='Rejected' %>
-      <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Approved" %>
-      <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet.id}&adoption_status=Rejected" %></p>
+  <p><% @pet_applicants.each do |pet_applicant| %></p>
+    <p><%= link_to "#{pet_applicant.pet.name}", "/pets/#{pet_applicant.pet.id}" %>
+      <strong><%= pet_applicant.adoption_status.titleize %></strong>
+    <% if pet_applicant.pending? %>
+      <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=approved" %>
+      <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=rejected" %></p>
     <% end %>
   <% end %>
-  <p><strong>Status</strong>: <%= @applicant.status %></p>
 </section>
