@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_15_231518) do
+ActiveRecord::Schema.define(version: 2021_02_16_001325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_02_15_231518) do
   create_table "pet_applicants", force: :cascade do |t|
     t.bigint "pet_id"
     t.bigint "applicant_id"
-    t.integer "adoption_status", default: -1
+    t.integer "adoption_status"
     t.index ["applicant_id"], name: "index_pet_applicants_on_applicant_id"
     t.index ["pet_id"], name: "index_pet_applicants_on_pet_id"
   end
