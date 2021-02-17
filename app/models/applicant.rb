@@ -6,10 +6,6 @@ class Applicant < ApplicationRecord
 
   enum status: [:in_progress, :pending, :accepted, :rejected]
 
-  def full_address
-    "#{address} #{city}, #{state} #{zip}"
-  end
-
   def any_pet_applicants_pending?
     pet_applicants.any? { |pet_applicant| pet_applicant.pending? }
   end

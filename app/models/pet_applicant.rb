@@ -8,10 +8,4 @@ class PetApplicant < ApplicationRecord
   def self.find_by(pet_id, applicant_id)
     where(pet: pet_id).where(applicant: applicant_id).take
   end
-
-  # def self.all_approved?(applicant_id)
-  #   where(applicant: applicant_id).all? do |pet_applicant|
-  #     pet_applicant.approved?
-  #   end
-  # end
 end

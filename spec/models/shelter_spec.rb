@@ -18,5 +18,23 @@ describe Shelter, type: :model do
 
       expect(shelters).to eq(expected)
     end
+
+    it 'returns name and address only' do
+      shelter = Shelter.information(@shelter1.id)
+
+      expect(shelter[:name]).to eq(@shelter1.name)
+      expect(shelter[:address]).to be_in(@shelter1.full_address)
+      expect(shelter[:city]).to be_in(@shelter1.full_address)
+      expect(shelter[:state]).to be_in(@shelter1.full_address)
+      expect(shelter[:zip].to_s).to be_in(@shelter1.full_address)
+    end
+  end
+
+  describe 'instance methods' do
+    it 'returns the full address' do
+      full_address = "#{@shelter1.address} #{@shelter1.city}, #{@shelter1.state} #{@shelter1.zip}"
+
+      expect(@shelter1.full_address).to eq(full_address)
+    end
   end
 end

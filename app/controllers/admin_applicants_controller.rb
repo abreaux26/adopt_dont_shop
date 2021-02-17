@@ -31,6 +31,10 @@ class AdminApplicantsController < ApplicationController
     @shelters = Shelter.order_by_desc_name
   end
 
+  def shelter_show
+    @shelter = Shelter.information(params[:shelter_id])
+  end
+
   private
 
   def pet_applicant_params
