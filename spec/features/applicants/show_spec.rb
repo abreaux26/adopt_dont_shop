@@ -66,7 +66,7 @@ RSpec.describe 'As a visitor' do
       within(".submit-application") do
         click_button('Submit Application')
       end
-      expect(page).to have_content('Pending')
+      expect(page).to have_content('pending')
     end
 
     it 'I do not see a section to add more pets to this application' do

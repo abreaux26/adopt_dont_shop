@@ -10,15 +10,21 @@ class AdminApplicantsController < ApplicationController
     pet_applicant = PetApplicant.find_by(@pet.id, @applicant.id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
-    if PetApplicant.all_approved?(@applicant.id)
-      @applicant.update(status: 'Accepted')
-      @pet.update(adoptable: false)
-    else
-      @applicant.update(status: 'Rejected')
-      @pet.update(adoptable: true)
+    # binding.pry
+    have_pending_records = @applicant.pet_applicants.any? { |pet_applicant| pet_applicant.pending? }
+    if !have_pending_records
+      if PetApplicant.all_approved?(@applicant.id)
+        @applicant.update(status: 'accepted')
+        @applicant.save
+      else
+        @applicant.update(status: 'rejected')
+        @applicant.save
+      end
+      
+      if @applicant.accepted?
+        @applicant.pets.update(adoptable: false)
+      end
     end
-    @applicant.save
-    @pet.save
     redirect_to "/admin/applicants/#{@applicant.id}"
   end
 

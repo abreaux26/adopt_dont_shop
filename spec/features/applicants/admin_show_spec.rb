@@ -107,7 +107,7 @@ RSpec.describe 'As a visitor' do
 
       within("#admin-applicant-#{@applicant1.id}") do
         click_button('Approve')
-        expect(page).to have_content('Accepted')
+        expect(page).to have_content('accepted')
       end
     end
   end
@@ -118,7 +118,7 @@ RSpec.describe 'As a visitor' do
 
       within("#admin-applicant-#{@applicant2.id}") do
         click_button('Reject')
-        expect(page).to have_content('Rejected')
+        expect(page).to have_content('rejected')
       end
     end
   end
@@ -132,7 +132,7 @@ RSpec.describe 'As a visitor' do
       end
 
       visit "/pets/#{@pet1.id}"
-      expect(page).to have_content(false)
+      expect(@pet1.adoptable?).to be_falsy
     end
   end
 
@@ -145,7 +145,7 @@ RSpec.describe 'As a visitor' do
       end
 
       visit "/pets/#{@pet1.id}"
-      expect(page).to have_content(true)
+      expect(@pet1.adoptable?).to be_truthy
     end
   end
 end

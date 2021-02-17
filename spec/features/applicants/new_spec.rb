@@ -33,7 +33,7 @@ RSpec.describe 'As a visitor' do
       within("#applicant-#{new_id}") do
         expect(page).to have_content('Angel')
         expect(page).to have_content(Applicant.last.full_address)
-        expect(page).to have_content('In Progress')
+        expect(page).to have_content('in_progress')
       end
     end
   end
