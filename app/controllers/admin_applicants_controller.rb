@@ -10,9 +10,8 @@ class AdminApplicantsController < ApplicationController
     pet_applicant = PetApplicant.find_by(@pet.id, @applicant.id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
-    have_pending_records = @applicant.pet_applicants.any? { |pet_applicant| pet_applicant.pending? }
-    if !have_pending_records
-      if PetApplicant.all_approved?(@applicant.id)
+    if !@applicant.any_pet_applicants_pending?
+      if @applicant.all_pet_applicants_approved?
         @applicant.update(status: 'accepted')
         @applicant.save
       else
