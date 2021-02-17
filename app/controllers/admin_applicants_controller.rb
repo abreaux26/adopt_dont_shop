@@ -1,5 +1,5 @@
 class AdminApplicantsController < ApplicationController
-  def show
+  def applicant_show
     @applicant = Applicant.find(params[:applicant_id])
     @pet_applicants = @applicant.pet_applicants.includes(:pet)
   end
@@ -29,6 +29,10 @@ class AdminApplicantsController < ApplicationController
 
   def shelter_index
     @shelters = Shelter.order_by_desc_name
+  end
+
+  def shelter_show
+    @shelter = Shelter.information(params[:shelter_id])
   end
 
   private
