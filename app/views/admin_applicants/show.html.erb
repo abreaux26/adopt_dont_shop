@@ -1,6 +1,6 @@
 <section id="admin-applicant-<%= @applicant.id %>">
   <h1><%= @applicant.name %></h1>
-  <p><strong>Status</strong>: <%= @applicant.status %></p>
+  <p><strong>Status</strong>: <%= @applicant.status.titleize %></p>
   <p><strong>Address:</strong> <%= @applicant.full_address %></p>
   <p><strong>Good Home Description</strong>: <%= @applicant.good_home_description %></p>
   <p><strong>Pets:</strong></p>

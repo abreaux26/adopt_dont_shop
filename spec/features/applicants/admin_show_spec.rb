@@ -131,8 +131,11 @@ RSpec.describe 'As a visitor' do
         click_button('Approve')
       end
 
-      visit "/pets/#{@pet1.id}"
-      expect(page).to have_content(false)
+      @applicant1.pets.each do |pet|
+        visit "/pets/#{pet.id}"
+        expect(page).to have_content('Adoption Status: false')
+        expect(pet.adoptable?).to be_falsy
+      end
     end
   end
 
@@ -144,8 +147,11 @@ RSpec.describe 'As a visitor' do
         click_button('Reject')
       end
 
-      visit "/pets/#{@pet1.id}"
-      expect(page).to have_content(true)
+      @applicant1.pets.each do |pet|
+        visit "/pets/#{pet.id}"
+        expect(page).to have_content('Adoption Status: true')
+        expect(pet.adoptable?).to be_truthy
+      end
     end
   end
 end
