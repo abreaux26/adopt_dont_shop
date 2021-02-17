@@ -8,9 +8,11 @@ RSpec.describe 'As a visitor' do
     @shelter1 = Shelter.create!(name: 'Shady Shelter', address: '123 Shady Ave', city: 'Denver', state: 'CO', zip: 80011)
 
     @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 2, sex: 'male')
+    @pet2 = @shelter1.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 4, sex: 'male')
 
     @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1)
     @pet_applicant2 = PetApplicant.create!(pet: @pet1, applicant: @applicant2)
+    @pet_applicant3 = PetApplicant.create!(pet: @pet2, applicant: @applicant1)
   end
 
   describe 'When I visit an admin application show page' do
@@ -26,9 +28,11 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Approve')
+        within("#pet-#{@pet1.id}") do
+          click_button('Approve')
+          expect(page).not_to have_button('Approve')
+        end
       end
-      expect(page).not_to have_button('Approve')
       expect(current_path).to eq("/admin/applicants/#{@applicant1.id}")
     end
 
@@ -36,8 +40,10 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Approve')
-        expect(page).to have_content('Approved')
+        within("#pet-#{@pet1.id}") do
+          click_button('Approve')
+          expect(page).to have_content('Approved')
+        end
       end
     end
 
@@ -53,9 +59,11 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Reject')
+        within("#pet-#{@pet1.id}") do
+          click_button('Reject')
+          expect(page).not_to have_button('Reject')
+        end
       end
-      expect(page).not_to have_button('Reject')
       expect(current_path).to eq("/admin/applicants/#{@applicant1.id}")
     end
 
@@ -63,8 +71,10 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Reject')
-        expect(page).to have_content('Rejected')
+        within("#pet-#{@pet1.id}") do
+          click_button('Reject')
+          expect(page).to have_content('Rejected')
+        end
       end
     end
   end
@@ -74,14 +84,18 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Approve')
+        within("#pet-#{@pet1.id}") do
+          click_button('Approve')
+        end
       end
 
       visit "/admin/applicants/#{@applicant2.id}"
 
-      within("#admin-applicant-#{@applicant2.id}") do
-        expect(page).to have_button('Approve')
-        expect(page).to have_button('Reject')
+      @applicant2.pets.each do |pet|
+        within("#pet-#{pet.id}") do
+          expect(page).to have_button('Approve')
+          expect(page).to have_button('Reject')
+        end
       end
     end
 
@@ -89,7 +103,9 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Reject')
+        within("#pet-#{@pet1.id}") do
+          click_button('Reject')
+        end
       end
 
       visit "/admin/applicants/#{@applicant2.id}"
@@ -103,10 +119,12 @@ RSpec.describe 'As a visitor' do
 
   describe 'When I approve all pets for an application' do
     it 'I see the applications status has changed to "Accepted" on the application show page' do
-      visit "/admin/applicants/#{@applicant1.id}"
+      visit "/admin/applicants/#{@applicant2.id}"
 
-      within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Approve')
+      within("#admin-applicant-#{@applicant2.id}") do
+        within("#pet-#{@pet1.id}") do
+          click_button('Approve')
+        end
         expect(page).to have_content('Accepted')
       end
     end
@@ -128,7 +146,12 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Approve')
+        within("#pet-#{@pet1.id}") do
+          click_button('Approve')
+        end
+        within("#pet-#{@pet2.id}") do
+          click_button('Approve')
+        end
       end
 
       @applicant1.pets.each do |pet|
@@ -144,13 +167,65 @@ RSpec.describe 'As a visitor' do
       visit "/admin/applicants/#{@applicant1.id}"
 
       within("#admin-applicant-#{@applicant1.id}") do
-        click_button('Reject')
+        within("#pet-#{@pet1.id}") do
+          click_button('Reject')
+        end
+        within("#pet-#{@pet2.id}") do
+          click_button('Reject')
+        end
       end
 
       @applicant1.pets.each do |pet|
         visit "/pets/#{pet.id}"
         expect(page).to have_content('Adoption Status: true')
         expect(pet.adoptable?).to be_truthy
+      end
+    end
+  end
+
+  describe 'When a pet has an "Approved" application on them' do
+    describe 'I visit the admin application show page for the "Pending" application' do
+      it 'I see a message that this pet has been approved for adoption' do
+        visit "/admin/applicants/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Approve')
+          end
+          within("#pet-#{@pet2.id}") do
+            click_button('Approve')
+          end
+        end
+
+        visit "/admin/applicants/#{@applicant2.id}"
+
+        within("#admin-applicant-#{@applicant2.id}") do
+          within("#pet-#{@pet1.id}") do
+            expect(page).to have_content('No longer adoptable.')
+            expect(page).not_to have_button('Approve')
+          end
+        end
+      end
+
+      it 'I do see a button to reject them' do
+        visit "/admin/applicants/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Approve')
+          end
+          within("#pet-#{@pet2.id}") do
+            click_button('Approve')
+          end
+        end
+
+        visit "/admin/applicants/#{@applicant2.id}"
+
+        within("#admin-applicant-#{@applicant2.id}") do
+          within("#pet-#{@pet1.id}") do
+            expect(page).to have_button('Reject')
+          end
+        end
       end
     end
   end

@@ -5,11 +5,17 @@
   <p><strong>Good Home Description</strong>: <%= @applicant.good_home_description %></p>
   <p><strong>Pets:</strong></p>
   <p><% @pet_applicants.each do |pet_applicant| %></p>
-    <p><%= link_to "#{pet_applicant.pet.name}", "/pets/#{pet_applicant.pet.id}" %>
+  <section id="pet-<%= pet_applicant.pet.id %>">
+    <%= link_to "#{pet_applicant.pet.name}", "/pets/#{pet_applicant.pet.id}" %>
       <strong><%= pet_applicant.adoption_status.titleize %></strong>
     <% if pet_applicant.pending? %>
-      <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=approved" %>
-      <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=rejected" %></p>
+      <% if pet_applicant.pet.adoptable? %>
+        <%= button_to "Approve", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=approved" %>
+      <% else %>
+        <p>No longer adoptable.</p>
+      <% end %>
+      <%= button_to "Reject", "/admin/applicants/#{@applicant.id}?pet_id=#{pet_applicant.pet.id}&adoption_status=rejected" %>
     <% end %>
+  </section>
   <% end %>
 </section>
