@@ -20,9 +20,10 @@ class AdminApplicantsController < ApplicationController
         @applicant.update(status: 'rejected')
         @applicant.save
       end
-      
+
       if @applicant.accepted?
-        @applicant.pets.update(adoptable: false)
+        update_pets = @applicant.pets.update(adoptable: false)
+        update_pets.each(&:save)
       end
     end
     redirect_to "/admin/applicants/#{@applicant.id}"

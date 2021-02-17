@@ -17,7 +17,7 @@ RSpec.describe 'As a visitor' do
         expect(page).to have_content(@applicant1.name)
         expect(page).to have_content(@applicant1.full_address)
         expect(page).to have_link("Thor")
-        expect(page).to have_content(@applicant1.status)
+        expect(page).to have_content('In Progress')
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe 'As a visitor' do
       within(".submit-application") do
         click_button('Submit Application')
       end
-      expect(page).to have_content('pending')
+      expect(page).to have_content('Pending')
     end
 
     it 'I do not see a section to add more pets to this application' do
