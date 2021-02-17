@@ -31,6 +31,16 @@ RSpec.describe PetApplicant do
       expect(PetApplicant.find_by(@pet1.id, @applicant1.id)).to eq(@pet_applicant1)
     end
 
+    it 'returns false if one pet applicant adoption status is rejected' do
+      expect(PetApplicant.all_approved?(@applicant1.id)).to be_falsy
+    end
+
+    it 'returns true if all pet applicant adoption status'' are approved' do
+      expect(PetApplicant.all_approved?(@applicant3.id)).to be_truthy
+    end
+  end
+
+  describe 'instance methods' do
     it 'returns "Pending" if the pet application has neither been approved or rejected' do
       expect(@pet_applicant6.adoption_status).to eq('pending')
     end
@@ -41,14 +51,6 @@ RSpec.describe PetApplicant do
 
     it 'returns "Rejected" if the pet on the application is rejected' do
       expect(@pet_applicant2.adoption_status).to eq('rejected')
-    end
-
-    it 'returns false if one pet applicant adoption status is rejected' do
-      expect(PetApplicant.all_approved?(@applicant1.id)).to be_falsy
-    end
-
-    it 'returns true if all pet applicant adoption status'' are approved' do
-      expect(PetApplicant.all_approved?(@applicant3.id)).to be_truthy
     end
   end
 end
