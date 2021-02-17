@@ -10,7 +10,6 @@ class AdminApplicantsController < ApplicationController
     pet_applicant = PetApplicant.find_by(@pet.id, @applicant.id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
-    # binding.pry
     have_pending_records = @applicant.pet_applicants.any? { |pet_applicant| pet_applicant.pending? }
     if !have_pending_records
       if PetApplicant.all_approved?(@applicant.id)
@@ -27,6 +26,10 @@ class AdminApplicantsController < ApplicationController
       end
     end
     redirect_to "/admin/applicants/#{@applicant.id}"
+  end
+
+  def shelter_index
+    @shelters = Shelter.order_by_desc_name
   end
 
   private
