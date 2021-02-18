@@ -10,6 +10,7 @@ describe Shelter, type: :model do
   before :each do
     @applicant1 = Applicant.create!(name: 'Angel', address: '123 Street', city: 'Conway', state: 'AR', zip: 72034, status: 1)
     @applicant2 = Applicant.create!(name: 'Chris', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034, status: 1)
+    @applicant3 = Applicant.create!(name: 'Amber', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034, status: 1)
 
     @shelter1 = Shelter.create!(name: 'Silly Shelter', address: '123 Shady Ave', city: 'Denver', state: 'CO', zip: 80011)
     @shelter2 = Shelter.create!(name: 'Shady Shelter', address: '123 Silly Ave', city: 'Longmont', state: 'CO', zip: 80012)
@@ -22,6 +23,7 @@ describe Shelter, type: :model do
     @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1, adoption_status: 2)
     @pet_applicant2 = PetApplicant.create!(pet: @pet2, applicant: @applicant2, adoption_status: 0)
     @pet_applicant3 = PetApplicant.create!(pet: @pet2, applicant: @applicant1, adoption_status: 1)
+    @pet_applicant3 = PetApplicant.create!(pet: @pet3, applicant: @applicant3, adoption_status: 0)
 
   end
 
@@ -75,6 +77,15 @@ describe Shelter, type: :model do
       pet_count = @shelter1.adopted_pet_count
 
       expect(pet_count).to eq(2)
+    end
+
+    it 'returns all pets that hat have a pending application and have not been approved or rejected' do
+      pets = @shelter1.action_required_pets
+      expected = [@pet3]
+      bad = [@pet1, @pet2]
+
+      expect(pets).to eq(expected)
+      expect(pets).not_to be_in(bad)
     end
   end
 end
