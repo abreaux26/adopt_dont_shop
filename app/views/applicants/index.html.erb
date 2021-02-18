@@ -1,0 +1,6 @@
+<h1>Applicants:</h1>
+<% @applicants.each do |applicant| %>
+  <section id="applicant-<%=applicant.id%>">
+    <h2><%= link_to "#{applicant.name}", "/applicants/#{applicant.id}" %></h2>
+  </section>
+<% end %>

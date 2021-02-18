@@ -1,5 +1,7 @@
 class PetApplicant < ApplicationRecord
   validates_presence_of :pet_id, :applicant_id
+  validates :pet_id, uniqueness: { scope: :applicant_id, message: 'is already added to this application.' }
+
   belongs_to :pet
   belongs_to :applicant
 

@@ -1,5 +1,5 @@
 class AdminApplicantsController < ApplicationController
-  def applicant_show
+  def show
     @applicant = Applicant.find(params[:applicant_id])
     @pet_applicants = @applicant.pet_applicants.includes(:pet)
   end
@@ -25,16 +25,6 @@ class AdminApplicantsController < ApplicationController
       end
     end
     redirect_to "/admin/applicants/#{@applicant.id}"
-  end
-
-  def shelter_index
-    @shelters = Shelter.order_by_desc_name
-    @pending_applicants = Shelter.pending_applicants
-  end
-
-  def shelter_show
-    @shelter_information = Shelter.information(params[:shelter_id])
-    @shelter = Shelter.find(params[:shelter_id])
   end
 
   private

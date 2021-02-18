@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe PetApplicant do
+  describe 'relationships' do
+    it { should belong_to :pet }
+    it { should belong_to :applicant }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of :pet_id }
+    it { should validate_presence_of :applicant_id }
+  end
+
   before :each do
     @applicant1 = Applicant.create!(name: 'Angel', address: '123 Street', city: 'Conway', state: 'AR', zip: 72034)
     @applicant2 = Applicant.create!(name: 'Chris', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034)
@@ -18,11 +28,6 @@ RSpec.describe PetApplicant do
     @pet_applicant4 = PetApplicant.create!(pet: @pet1, applicant: @applicant3, adoption_status: 2)
     @pet_applicant5 = PetApplicant.create!(pet: @pet2, applicant: @applicant3, adoption_status: 2)
     @pet_applicant6 = PetApplicant.create!(pet: @pet2, applicant: @applicant4)
-  end
-
-  describe 'relationships' do
-    it { should belong_to :pet }
-    it { should belong_to :applicant }
   end
 
   describe 'class methods' do
