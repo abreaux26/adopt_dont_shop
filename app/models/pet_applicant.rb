@@ -18,4 +18,8 @@ class PetApplicant < ApplicationRecord
   def self.all_approved?(applicant_id)
     where(applicant_id: applicant_id).all? { |pet_applicant| pet_applicant.approved? }
   end
+
+  def pending_and_pet_adoptable?
+    pending? && pet.adoptable
+  end
 end

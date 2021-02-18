@@ -65,5 +65,13 @@ RSpec.describe PetApplicant do
     it 'returns "Rejected" if the pet on the application is rejected' do
       expect(@pet_applicant2.adoption_status).to eq('rejected')
     end
+
+    it 'returns true if the pet applicant is pending and pet is adoptable' do
+      expect(@pet_applicant6.pending_and_pet_adoptable?).to be_truthy
+    end
+
+    it 'returns false if the pet applicant is pending and pet is adoptable' do
+      expect(@pet_applicant4.pending_and_pet_adoptable?).to be_falsy
+    end
   end
 end
