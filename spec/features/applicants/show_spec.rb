@@ -78,4 +78,14 @@ RSpec.describe 'As a visitor' do
       expect(page).not_to have_content('Add a Pet to this Application')
     end
   end
+
+  describe 'Creating a pet applicant that already exists' do
+    it 'has an input validation that wont create a new record' do
+      visit "/applicants/#{@applicant1.id}"
+      fill_in :search, with: 'Thor'
+      click_button('Search')
+      click_button('Adopt this Pet')
+      expect(page).to have_content('Pet is already added to this application.')
+    end
+  end
 end
