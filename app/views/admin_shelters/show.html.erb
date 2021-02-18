@@ -1,12 +1,10 @@
 <h2><%= @shelter_information.name %></h2>
 <h2><%= @shelter_information.full_address %></h2>
+
 <section class='statistics'>
-  <h3>Statistics:</h3>
-  <p>Average Adoptable Pet Age: <%= @shelter.average_age %></p>
-  <p>Count of Adoptable Pets: <%= @shelter.adoptable_pet_count %></p>
-  <p>Count of Adopted Pets: <%= @shelter.adopted_pet_count %></p>
+  <%= render partial: "statistics", locals: { header: "Statistics:" } %>
 </section>
+
 <section class='action-required'>
-  <%= render partial: "action_required", locals: { header: "Action Required",
-                                                   shelter: @shelter } %>
+  <%= render partial: "action_required", locals: { header: "Action Required" } %>
 </section>
