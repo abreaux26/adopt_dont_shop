@@ -12,6 +12,11 @@ class Shelter < ApplicationRecord
   end
 
   def self.pending_applicants
-    joins(:pets).joins(:pet_applicants).joins(:applicants).where('applicants.status = 1').distinct
+    joins(:pets)
+    .joins(:pet_applicants)
+    .joins(:applicants)
+    .where('applicants.status = 1')
+    .order('shelters.name')
+    .distinct
   end
 end
