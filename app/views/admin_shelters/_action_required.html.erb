@@ -1,0 +1,7 @@
+<h3><%= header %></h3>
+<% shelter.action_required_pets.each do |pet| %>
+<p><%= pet.name %>
+  <% pet.applicants.pending.each do |applicant| %>
+    <%= link_to "Go to Application", "/admin/applicants/#{applicant.id}" %></p>
+  <% end %>
+<% end %>
