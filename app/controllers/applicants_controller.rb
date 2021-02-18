@@ -19,8 +19,8 @@ class ApplicantsController < ApplicationController
     if applicant.save
       redirect_to "/applicants/#{applicant.id}"
     else
-      flash[:notice] = "Applicant not created: Required information missing."
-      redirect_to "/applicants/new"
+      flash[:notice] = applicant.errors.full_messages
+      render :new
     end
   end
 

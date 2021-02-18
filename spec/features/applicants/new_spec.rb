@@ -42,9 +42,12 @@ RSpec.describe 'As a visitor' do
     it 'I fail to fill in any form fields and see a message' do
       visit '/applicants/new'
       click_button('Submit')
-      expect(page).to have_content("Applicant not created: Required information missing.")
+      expect(page).to have_content("Name can't be blank")
+      expect(page).to have_content("Address can't be blank")
+      expect(page).to have_content("City can't be blank")
+      expect(page).to have_content("State can't be blank")
+      expect(page).to have_content("Zip can't be blank")
       expect(page).to have_button('Submit')
-      expect(current_path).to eq('/applicants/new')
     end
   end
 end

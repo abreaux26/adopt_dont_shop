@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Applicant do
+  describe 'relationships' do
+    it { should have_many :pet_applicants }
+    it { should have_many(:pets).through(:pet_applicants) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of :name }
+    it { should validate_presence_of :address }
+    it { should validate_presence_of :city }
+    it { should validate_presence_of :state }
+    it { should validate_presence_of :zip }
+  end
+
   before :each do
     @applicant1 = Applicant.create!(name: 'Angel', address: '123 Street', city: 'Conway', state: 'AR', zip: 72034)
     @applicant2 = Applicant.create!(name: 'Chris', address: '123 Drive', city: 'Conway', state: 'AR', zip: 72034)
@@ -16,11 +29,6 @@ RSpec.describe Applicant do
     @pet_applicant2 = PetApplicant.create!(pet: @pet1, applicant: @applicant2, adoption_status: 0)
     @pet_applicant3 = PetApplicant.create!(pet: @pet2, applicant: @applicant1, adoption_status: 2)
     @pet_applicant4 = PetApplicant.create!(pet: @pet3, applicant: @applicant3, adoption_status: 1)
-  end
-
-  describe 'relationships' do
-    it { should have_many :pet_applicants }
-    it { should have_many(:pets).through(:pet_applicants) }
   end
 
   describe 'instance methods' do
