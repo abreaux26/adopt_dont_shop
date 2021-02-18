@@ -13,4 +13,8 @@ class Pet < ApplicationRecord
   def self.partial_search(input)
     where("name ILIKE ?", "%#{input}%")
   end
+
+  def applicants_pending
+    applicants.pending
+  end
 end
