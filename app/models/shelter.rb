@@ -33,6 +33,10 @@ class Shelter < ApplicationRecord
   end
 
   def action_required_pets
-    pets.joins(:pet_applicants).joins(:applicants).where('applicants.status = 1').where('pet_applicants.adoption_status = 0')
+    pets
+    .joins(:pet_applicants)
+    .joins(:applicants)
+    .where('applicants.status = 1')
+    .where('pet_applicants.adoption_status = 0')
   end
 end

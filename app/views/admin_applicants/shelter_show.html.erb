@@ -9,6 +9,9 @@
 <section class='action-required'>
   <h3>Action Required</h3>
   <% @shelter.action_required_pets.each do |pet| %>
-  <p><%= pet.name %></p>
+  <p><%= pet.name %>
+    <% pet.applicants.pending.each do |applicant| %>
+      <%= link_to "Go to Application", "/admin/applicants/#{applicant.id}" %></p>
+    <% end %>
   <% end %>
 </section>
