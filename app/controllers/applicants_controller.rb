@@ -1,4 +1,8 @@
 class ApplicantsController < ApplicationController
+  def index
+    @applicants = Applicant.all
+  end
+
   def show
     @applicant = Applicant.find(params[:applicant_id])
     if params[:search]
