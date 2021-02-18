@@ -12,8 +12,11 @@ class Applicant < ApplicationRecord
 
   def change_status
     if !pet_applicants.any_pending?(id)
-      update(status: :accepted) if pet_applicants.all_approved?(id)
-      update(status: :rejected) if !pet_applicants.all_approved?(id)
+      if pet_applicants.all_approved?(id)
+        update(status: :accepted)
+      else
+        update(status: :rejected)
+      end
     end
   end
 end
