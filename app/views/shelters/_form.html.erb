@@ -1,14 +1,14 @@
 <%= form_with url: path, method: method, local: true do |form|%>
   <h3><%= form.label header_label %></h3>
   <p><%= form.label "Name: " %></p>
-  <p><%= form.text_field :name %></p>
+  <p><%= form.text_field :name, value: @shelter.name %></p>
   <p><%= form.label "Address: " %></p>
-  <p><%= form.text_field :address %></p>
+  <p><%= form.text_field :address, value: @shelter.address %></p>
   <p><%= form.label "City: " %></p>
-  <p><%= form.text_field :city %></p>
+  <p><%= form.text_field :city, value: @shelter.city %></p>
   <p><%= form.label "State: " %></p>
-  <p><%= form.text_field :state %></p>
+  <p><%= form.text_field :state, maxlength: 2, value: @shelter.state %></p>
   <p><%= form.label "Zip: " %></p>
-  <p><%= form.text_field :zip %></p>
+  <p><%= form.text_field :zip, maxlength: 5, value: @shelter.zip %></p>
   <%= form.submit button_text %>
 <% end %>
