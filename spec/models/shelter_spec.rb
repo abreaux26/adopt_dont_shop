@@ -15,7 +15,7 @@ describe Shelter, type: :model do
     @shelter2 = Shelter.create!(name: 'Shady Shelter', address: '123 Silly Ave', city: 'Longmont', state: 'CO', zip: 80012)
     @shelter3 = Shelter.create!(name: 'Shell Shelter', address: '102 Shelter Dr.', city: 'Commerce City', state: 'CO', zip: 80022)
 
-    @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 4, sex: 'male')
+    @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 4, sex: 'male', adoptable: false)
     @pet2 = @shelter2.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 2, sex: 'male')
     @pet3 = @shelter1.pets.create!(image:'', name: 'Pepper', description: 'dog', approximate_age: 2, sex: 'male', adoptable: false)
 
@@ -60,15 +60,21 @@ describe Shelter, type: :model do
     end
 
     it 'returns average age of all adoptable pets' do
-      average_age = @shelter1.average_age
+      average_age = @shelter2.average_age
 
-      expect(average_age).to eq(4.0)
+      expect(average_age).to eq(2.0)
     end
 
     it 'returns count of all adoptable pets' do
       pet_count = @shelter1.adoptable_pet_count
 
-      expect(pet_count).to eq(1)
+      expect(pet_count).to eq(0)
+    end
+
+    it 'returns count of all adopted pets' do
+      pet_count = @shelter1.adopted_pet_count
+
+      expect(pet_count).to eq(2)
     end
   end
 end

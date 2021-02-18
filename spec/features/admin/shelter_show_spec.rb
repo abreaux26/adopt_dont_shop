@@ -6,9 +6,10 @@ RSpec.describe 'As a visitor' do
     @shelter2 = Shelter.create!(id: 2, name: 'Silly Shelter', address: '123 Silly Ave', city: 'Longmont', state: 'CO', zip: 80012)
     @shelter3 = Shelter.create!(id: 3, name: 'Shell Shelter', address: '102 Shelter Dr.', city: 'Commerce City', state: 'CO', zip: 80022)
 
-    @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 2, sex: 'male', adoptable: true)
+    @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 2, sex: 'male', adoptable: false)
     @pet2 = @shelter2.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 4, sex: 'male', adoptable: true)
-    @pet3 = @shelter2.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 4, sex: 'male', adoptable: false)
+    @pet3 = @shelter2.pets.create!(image:'', name: 'Pepper', description: 'dog', approximate_age: 4, sex: 'male', adoptable: true)
+    @pet4 = @shelter1.pets.create!(image:'', name: 'Sam', description: 'dog', approximate_age: 2, sex: 'male', adoptable: false)
   end
 
   describe 'When I visit an admin shelter show page' do
@@ -49,6 +50,14 @@ RSpec.describe 'As a visitor' do
 
       within(".statistics") do
         expect(page).to have_content(@shelter2.adoptable_pet_count)
+      end
+    end
+
+    it 'I see the number of pets that have been adopted from that shelter' do
+      visit "/admin/shelters/#{@shelter1.id}"
+
+      within(".statistics") do
+        expect(page).to have_content(@shelter1.adopted_pet_count)
       end
     end
   end
