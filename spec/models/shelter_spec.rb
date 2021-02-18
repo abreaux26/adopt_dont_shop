@@ -59,10 +59,16 @@ describe Shelter, type: :model do
       expect(@shelter1.full_address).to eq(full_address)
     end
 
-    it 'returns average age of all pets' do
+    it 'returns average age of all adoptable pets' do
       average_age = @shelter1.average_age
 
       expect(average_age).to eq(4.0)
+    end
+
+    it 'returns count of all adoptable pets' do
+      pet_count = @shelter1.adoptable_pet_count
+
+      expect(pet_count).to eq(1)
     end
   end
 end
