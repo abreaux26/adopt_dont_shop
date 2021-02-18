@@ -16,6 +16,7 @@ RSpec.describe 'As a visitor' do
 
     @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1)
     @pet_applicant2 = PetApplicant.create!(pet: @pet2, applicant: @applicant2)
+    @pet_applicant3 = PetApplicant.create!(pet: @pet3, applicant: @applicant1)
   end
 
   describe 'When I visit an admin shelter show page' do
@@ -82,6 +83,18 @@ RSpec.describe 'As a visitor' do
         expect(page).to have_content(@pet1.name)
         expect(page).not_to have_content(@pet2.name)
       end
+    end
+
+    it 'I see a link to the admin application show page where I can accept or reject the pet.' do
+      visit "/admin/shelters/#{@shelter1.id}"
+
+      within(".action-required") do
+        expect(page).to have_link('Go to Application')
+        click_link('Go to Application')
+      end
+      expect(current_path).to eq("/admin/applicants/#{@applicant1.id}")
+      expect(page).to have_button('Approve')
+      expect(page).to have_button('Reject')
     end
   end
 end
