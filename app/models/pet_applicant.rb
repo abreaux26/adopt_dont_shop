@@ -1,5 +1,6 @@
 class PetApplicant < ApplicationRecord
   validates_presence_of :pet_id, :applicant_id
+
   belongs_to :pet
   belongs_to :applicant
 

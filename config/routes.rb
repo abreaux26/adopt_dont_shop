@@ -30,10 +30,10 @@ Rails.application.routes.draw do
   patch '/applicants/:applicant_id', to: 'applicants#update'
 
 # admin applicants
-  get '/admin/applicants/:applicant_id', to: 'admin_applicants#applicant_show'
+  get '/admin/applicants/:applicant_id', to: 'admin_applicants#show'
   post '/admin/applicants/:applicant_id', to: 'admin_applicants#update'
 
 # admin shelters
-  get '/admin/shelters', to: 'admin_applicants#shelter_index'
-  get '/admin/shelters/:shelter_id', to: 'admin_applicants#shelter_show'
+  get '/admin/shelters', to: 'admin_shelters#index'
+  get '/admin/shelters/:shelter_id', to: 'admin_shelters#show'
 end
