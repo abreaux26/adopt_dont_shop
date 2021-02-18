@@ -8,7 +8,7 @@ RSpec.describe 'Shelter update from show page' do
 
   it "can update a shelter from the shelter show page" do
     visit "/shelters/#{@shelter1.id}"
-
+    
     click_link "Edit Shelter"
 
     expect(current_path).to eq("/shelters/#{@shelter1.id}/edit")

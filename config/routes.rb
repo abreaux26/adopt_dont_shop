@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
 # admin applicants
   get '/admin/applicants/:applicant_id', to: 'admin_applicants#show'
-  post '/admin/applicants/:applicant_id', to: 'admin_applicants#update'
+  patch '/admin/applicants/:applicant_id', to: 'admin_applicants#update'
 
 # admin shelters
   get '/admin/shelters', to: 'admin_shelters#index'

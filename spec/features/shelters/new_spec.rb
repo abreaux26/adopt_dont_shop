@@ -20,7 +20,6 @@ RSpec.describe 'Create Shelter from index page' do
     fill_in "zip", with: 12345
 
     click_on 'Create Shelter'
-
     expect(current_path).to eq('/shelters')
 
     expect(page).to have_content("Pa and Paws")
