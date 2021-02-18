@@ -4,6 +4,7 @@ describe Shelter, type: :model do
   describe 'relationships' do
     it { should have_many :pets }
     it { should have_many(:pet_applicants).through(:pets) }
+    it { should have_many(:applicants).through(:pet_applicants) }
   end
 
   before :each do
@@ -16,6 +17,7 @@ describe Shelter, type: :model do
 
     @pet1 = @shelter1.pets.create!(image:'', name: 'Thor', description: 'dog', approximate_age: 4, sex: 'male')
     @pet2 = @shelter2.pets.create!(image:'', name: 'Spark', description: 'dog', approximate_age: 2, sex: 'male')
+    @pet3 = @shelter1.pets.create!(image:'', name: 'Pepper', description: 'dog', approximate_age: 2, sex: 'male', adoptable: false)
 
     @pet_applicant1 = PetApplicant.create!(pet: @pet1, applicant: @applicant1, adoption_status: 2)
     @pet_applicant2 = PetApplicant.create!(pet: @pet2, applicant: @applicant2, adoption_status: 0)
@@ -55,6 +57,12 @@ describe Shelter, type: :model do
       full_address = "#{@shelter1.address} #{@shelter1.city}, #{@shelter1.state} #{@shelter1.zip}"
 
       expect(@shelter1.full_address).to eq(full_address)
+    end
+
+    it 'returns average age of all pets' do
+      average_age = @shelter1.average_age
+
+      expect(average_age).to eq(4.0)
     end
   end
 end

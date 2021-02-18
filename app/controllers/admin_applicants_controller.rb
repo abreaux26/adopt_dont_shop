@@ -33,7 +33,8 @@ class AdminApplicantsController < ApplicationController
   end
 
   def shelter_show
-    @shelter = Shelter.information(params[:shelter_id])
+    @shelter_information = Shelter.information(params[:shelter_id])
+    @shelter = Shelter.find(params[:shelter_id])
   end
 
   private
