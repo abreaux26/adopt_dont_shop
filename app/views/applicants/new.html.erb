@@ -1,14 +1,14 @@
 <%= form_with url: '/applicants', method: :post, local: true do |form|%>
   <h3><%= form.label "New Application:" %></h3>
   <p><%= form.label "Name: " %></p>
-  <p><%= form.text_field :name, placeholder: "Jane Doe" %></p>
+  <p><%= form.text_field :name, placeholder: "Jane Doe", value: @applicant.name %></p>
   <p><%= form.label "Address: " %></p>
-  <p><%= form.text_field :address, placeholder: "123 Street" %></p>
+  <p><%= form.text_field :address, placeholder: "123 Street", value: @applicant.address %></p>
   <p><%= form.label "City: " %></p>
-  <p><%= form.text_field :city, placeholder: "Conway" %></p>
+  <p><%= form.text_field :city, placeholder: "Conway", value: @applicant.city %></p>
   <p><%= form.label "State: " %></p>
-  <p><%= form.text_field :state, placeholder: "AR", maxlength: 2 %></p>
+  <p><%= form.text_field :state, placeholder: "AR", maxlength: 2, value: @applicant.state %></p>
   <p><%= form.label "Zip: " %></p>
-  <p><%= form.text_field :zip, placeholder: "72034", maxlength: 5 %></p>
+  <p><%= form.text_field :zip, placeholder: "72034", maxlength: 5, value: @applicant.zip %></p>
   <%= form.submit 'Submit' %>
 <% end %>

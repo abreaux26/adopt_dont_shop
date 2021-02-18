@@ -11,15 +11,16 @@ class ApplicantsController < ApplicationController
   end
 
   def new
+    @applicant = Applicant.new
   end
 
   def create
-    applicant = Applicant.new(applicant_params)
+    @applicant = Applicant.new(applicant_params)
 
-    if applicant.save
-      redirect_to "/applicants/#{applicant.id}"
+    if @applicant.save
+      redirect_to "/applicants/#{@applicant.id}"
     else
-      flash[:notice] = applicant.errors.full_messages
+      flash[:notice] = @applicant.errors.full_messages
       render :new
     end
   end
