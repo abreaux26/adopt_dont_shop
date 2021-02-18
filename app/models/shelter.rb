@@ -19,4 +19,8 @@ class Shelter < ApplicationRecord
     .order('shelters.name')
     .distinct
   end
+
+  def average_age
+    pets.where(adoptable: :true).average(:approximate_age).to_f
+  end
 end
