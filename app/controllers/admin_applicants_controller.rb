@@ -10,8 +10,8 @@ class AdminApplicantsController < ApplicationController
     pet_applicant = PetApplicant.find_by(@pet.id, @applicant.id)
     pet_applicant.update(pet_applicant_params)
     pet_applicant.save
-    if !@applicant.any_pet_applicants_pending?
-      if @applicant.all_pet_applicants_approved?
+    if !PetApplicant.any_pending?(@applicant.id)
+      if PetApplicant.all_approved?(@applicant.id)
         @applicant.update(status: 'accepted')
         @applicant.save
       else
@@ -29,6 +29,7 @@ class AdminApplicantsController < ApplicationController
 
   def shelter_index
     @shelters = Shelter.order_by_desc_name
+    @pending_applicants = Shelter.pending_applicants
   end
 
   def shelter_show

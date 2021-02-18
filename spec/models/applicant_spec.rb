@@ -29,21 +29,5 @@ RSpec.describe Applicant do
 
       expect(@applicant1.full_address).to eq(full_address)
     end
-
-    it 'returns true if any pet applicant is pending' do
-      expect(@applicant2.any_pet_applicants_pending?).to be_truthy
-    end
-
-    it 'returns false if any pet applicant is pending' do
-      expect(@applicant1.any_pet_applicants_pending?).to be_falsy
-    end
-
-    it 'returns true if all pet applicants are approved' do
-      expect(@applicant1.all_pet_applicants_approved?).to be_truthy
-    end
-
-    it 'returns false if all pet applicants are approved' do
-      expect(@applicant3.all_pet_applicants_approved?).to be_falsy
-    end
   end
 end

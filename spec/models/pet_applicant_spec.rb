@@ -30,6 +30,22 @@ RSpec.describe PetApplicant do
 
       expect(PetApplicant.find_by(@pet1.id, @applicant1.id)).to eq(@pet_applicant1)
     end
+
+    it 'returns true if any pet applicant is pending' do
+      expect(PetApplicant.any_pending?(@applicant4.id)).to be_truthy
+    end
+
+    it 'returns false if any pet applicant is pending' do
+      expect(PetApplicant.any_pending?(@applicant1.id)).to be_falsy
+    end
+
+    it 'returns true if all pet applicants are approved' do
+      expect(PetApplicant.all_approved?(@applicant3.id)).to be_truthy
+    end
+
+    it 'returns false if all pet applicants are not approved' do
+      expect(PetApplicant.all_approved?(@applicant1.id)).to be_falsy
+    end
   end
 
   describe 'instance methods' do
